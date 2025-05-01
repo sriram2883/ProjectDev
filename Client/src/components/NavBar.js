@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import { AppContext } from '../context/AppContext';
 import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ setShowLoginModal }) => {
-  const { logout, cartItems, isLoggedIn } = useContext(AppContext);
+const Navbar = () => {
+  const { logout, cartItems, isLoggedIn,setShowLoginModal } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
