@@ -39,7 +39,7 @@ jobs:
     - name: Set up .NET SDK
       uses: actions/setup-dotnet@v2
       with:
-        dotnet-version: '6.x'
+        dotnet-version: '8.x'  # Updated to use .NET 8.x SDK
 
     # Step 5: Restore .NET dependencies
     - name: Restore .NET dependencies
