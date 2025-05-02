@@ -1,0 +1,48 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: 'windows-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+jobs:
+- job: BuildReact
+  displayName: 'Build React Frontend'
+  steps:
+    - task: NodeTool@0
+      inputs:
+        versionSpec: '18.x'
+      displayName: 'Install Node.js'
+
+    - script: |
+        cd Client
+        npm install
+        npm run build
+      displayName: 'Build React App'
+
+- job: BuildDotNet
+  displayName: 'Build .NET Backend'
+  dependsOn: []
+  steps:
+    - task: UseDotNet@2
+      inputs:
+        packageType: 'sdk'
+        version: '6.0.x'
+      displayName: 'Install .NET SDK'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'restore'
+        projects: 'Server/Server.csproj'
+      displayName: 'Restore .NET Dependencies'
+
+    - task: DotNetCoreCLI@2
+      inputs:
+        command: 'build'
+        projects: 'Server/Server.csproj'
+        arguments: '--configuration $(buildConfiguration)'
+      displayName: 'Build .NET Project'
