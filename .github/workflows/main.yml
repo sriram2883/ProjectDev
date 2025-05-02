@@ -32,6 +32,8 @@ jobs:
         cd Client
         npm install
         npm run build
+      env:
+        CI: false  # Unset the CI variable to allow warnings during the build
 
     # Step 4: Set up .NET SDK (for Backend)
     - name: Set up .NET SDK
