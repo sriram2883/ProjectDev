@@ -13,30 +13,28 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]  # Matrix build for cross-platform testing
+        os: [ubuntu-latest, windows-latest, macos-latest]
 
     steps:
-      # Step 1: Checkout the code from the repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Step 2: Set up Node.js (for React frontend)
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '18.x'
 
-      # Step 3: Install dependencies and build the React app
       - name: Install dependencies and build React app
         run: |
           cd Client
           npm install
           npm run build
         env:
-          CI: false  # Disable CI strict mode to allow warnings
+          CI: false
 
-      # Step 4: Deploy React frontend to Azure Static Web Apps
+      # ✅ Deploy ONLY on ubuntu-latest
       - name: Deploy to Azure Static Web Apps
+        if: matrix.os == 'ubuntu-latest'
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: 74048477669b4b305607bef38b3c8dbdfce5f31b15822e5e9c8dff02747a754c06-6f755047-6e3c-4cdc-8da6-b7fc97c3bbac0002809010052d00
@@ -46,19 +44,16 @@ jobs:
           output_location: "build"
           api_location: ""
 
-      # Step 5: Set up .NET SDK (for Backend)
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: '8.x'
 
-      # Step 6: Restore .NET dependencies
       - name: Restore .NET dependencies
         run: |
           cd Server
           dotnet restore
 
-      # Step 7: Build the .NET backend project
       - name: Build .NET project
         run: |
           cd Server
