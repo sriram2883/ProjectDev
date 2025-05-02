@@ -3,6 +3,10 @@
   "WorkspaceRootPath": "C:\\Users\\E-S-R\\OneDrive\\Desktop\\Proj Sales\\Server\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{58EEF8E6-C57E-46E5-8452-9DF1BB6F9A81}|Server.csproj|c:\\users\\e-s-r\\onedrive\\desktop\\proj sales\\server\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{58EEF8E6-C57E-46E5-8452-9DF1BB6F9A81}|Server.csproj|solutionrelative:appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{58EEF8E6-C57E-46E5-8452-9DF1BB6F9A81}|Server.csproj|c:\\users\\e-s-r\\onedrive\\desktop\\proj sales\\server\\controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{58EEF8E6-C57E-46E5-8452-9DF1BB6F9A81}|Server.csproj|solutionrelative:controllers\\authcontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -23,6 +27,23 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\E-S-R\\OneDrive\\Desktop\\Proj Sales\\Server\\appsettings.json",
+              "RelativeDocumentMoniker": "appsettings.json",
+              "ToolTip": "C:\\Users\\E-S-R\\OneDrive\\Desktop\\Proj Sales\\Server\\appsettings.json",
+              "RelativeToolTip": "appsettings.json",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAkAAADRAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-05-02T09:15:16.312Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
               "Title": "AuthController.cs",
               "DocumentMoniker": "C:\\Users\\E-S-R\\OneDrive\\Desktop\\Proj Sales\\Server\\Controllers\\AuthController.cs",
               "RelativeDocumentMoniker": "Controllers\\AuthController.cs",
@@ -35,7 +56,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "ProductController.cs",
               "DocumentMoniker": "C:\\Users\\E-S-R\\OneDrive\\Desktop\\Proj Sales\\Server\\Controllers\\ProductController.cs",
               "RelativeDocumentMoniker": "Controllers\\ProductController.cs",
@@ -43,12 +64,7 @@
               "RelativeToolTip": "Controllers\\ProductController.cs",
               "ViewState": "AgIAADYAAAAAAAAAAAAmwEgAAAA4AAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-02T05:22:36.543Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Bookmark",
-              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+              "WhenOpened": "2025-05-02T05:22:36.543Z"
             }
           ]
         }
