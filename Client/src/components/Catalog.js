@@ -11,7 +11,7 @@ const Catalog = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const response = await axios.get('backendsriram.azurewebsites.net/api/Product');
+        const response = await axios.get('https://backendsriram.azurewebsites.net/api/Product');
 
         // Access products array inside the "$values" property
         if (response.data && response.data.$values && Array.isArray(response.data.$values)) {

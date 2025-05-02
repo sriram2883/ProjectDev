@@ -13,7 +13,7 @@ const LoginModal = ({ setShowLoginModal }) => {
     e.preventDefault();
     if (userName && password) {
       try {
-        const response = await fetch('backendsriram.azurewebsites.net/api/auth/login', {
+        const response = await fetch('https://backendsriram.azurewebsites.net/api/auth/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -49,7 +49,7 @@ const LoginModal = ({ setShowLoginModal }) => {
     e.preventDefault();
     if (userName && password) {
       try {
-        const response = await fetch('backendsriram.azurewebsites.net/api/auth/register', {
+        const response = await fetch('https://backendsriram.azurewebsites.net/api/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

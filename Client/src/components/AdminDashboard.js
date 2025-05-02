@@ -19,7 +19,7 @@ const AdminDashboard = () => {
 
   const fetchProducts = async () => {
     try {
-      const response = await axios.get('backendsriram.azurewebsites.net/api/Product');
+      const response = await axios.get('https://backendsriram.azurewebsites.net/api/Product');
       const productList = response.data.$values;
       setProducts(productList);
       const uniqueCategories = [...new Set(productList.map(p => p.Category))];
@@ -86,9 +86,9 @@ const AdminDashboard = () => {
       }
 
       if (editProduct) {
-        await axios.put(`backendsriram.azurewebsites.net/api/Product/${editProduct.Id}`, payload);
+        await axios.put(`https://backendsriram.azurewebsites.net/api/Product/${editProduct.Id}`, payload);
       } else {
-        await axios.post('backendsriram.azurewebsites.net/api/Product', payload);
+        await axios.post('https://backendsriram.azurewebsites.net/api/Product', payload);
       }
 
       fetchProducts();
@@ -100,7 +100,7 @@ const AdminDashboard = () => {
 
   const handleDeleteProduct = async (productId) => {
     try {
-      await axios.delete(`backendsriram.azurewebsites.net/api/Product/${productId}`);
+      await axios.delete(`https://backendsriram.azurewebsites.net/api/Product/${productId}`);
       fetchProducts();
     } catch (error) {
       console.error('Error deleting product:', error);

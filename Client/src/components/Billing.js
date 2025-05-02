@@ -13,7 +13,7 @@ const Billing = () => {
 
   const navigate = useNavigate();
   const totalAmount = cartItems.reduce((sum, item) => sum + item.Price * item.quantity, 0);
-  const backendUrl = 'backendsriram.azurewebsites.net/api/Order';
+  const backendUrl = 'https://backendsriram.azurewebsites.net/api/Order';
 
   const sendOrderToBackend = async (status) => {
     const token = localStorage.getItem('token');
