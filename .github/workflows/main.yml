@@ -13,15 +13,17 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Checkout repository
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      # Setup Node.js for React frontend
+      # Setup Node.js for frontend
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
           node-version: '18.x'
 
+      # Install dependencies and build React app
       - name: Install dependencies and build React app
         run: |
           cd Client
@@ -30,30 +32,43 @@ jobs:
         env:
           CI: false
 
-      # Set up .NET SDK for backend
+      # Setup .NET SDK for backend
       - name: Set up .NET SDK
         uses: actions/setup-dotnet@v2
         with:
           dotnet-version: '8.x'
 
+      # Restore .NET dependencies
       - name: Restore .NET dependencies
         run: |
           cd Server
           dotnet restore
 
+      # Build .NET project
       - name: Build .NET project
         run: |
           cd Server
           dotnet build --configuration Release
 
-      # ✅ Publish the .NET app to prepare for deployment
+      # Publish the .NET project to prepare for deployment
       - name: Publish .NET project
         run: |
           cd Server
           dotnet publish --configuration Release --output ./bin/Release/net8.0/publish
 
-      # ✅ Deploy ONLY the backend to Azure Web App
-      - name: Deploy to Azure Web App
+      # ✅ Deploy Frontend to Azure Static Web App
+      - name: Deploy Frontend to Azure Static Web App
+        uses: Azure/static-web-apps-deploy@v1
+        with:
+          azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          action: "upload"
+          app_location: "Client"
+          output_location: "build"
+          api_location: ""  # If you have an API in the frontend, provide its location
+
+      # ✅ Deploy Backend to Azure Web App (using the published .NET package)
+      - name: Deploy Backend to Azure Web App
         uses: azure/webapps-deploy@v2
         with:
           app-name: backendsriram
