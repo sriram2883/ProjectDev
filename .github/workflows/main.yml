@@ -1,0 +1,55 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]  # This matrix will run the job on Ubuntu, Windows, and macOS
+
+    steps:
+    # Step 1: Checkout the code from the repository
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Step 2: Set up Node.js (for React frontend)
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: '18.x'
+
+    # Step 3: Install dependencies and build the React app
+    - name: Install dependencies and build React app
+      run: |
+        cd Client
+        npm install
+        npm run build
+
+    # Step 4: Set up .NET SDK (for Backend)
+    - name: Set up .NET SDK
+      uses: actions/setup-dotnet@v2
+      with:
+        dotnet-version: '6.x'
+
+    # Step 5: Restore .NET dependencies
+    - name: Restore .NET dependencies
+      run: |
+        cd Server
+        dotnet restore
+
+    # Step 6: Build the .NET backend project
+    - name: Build .NET project
+      run: |
+        cd Server
+        dotnet build --configuration Release
+
+    # Optionally, add deployment steps here (if desired)
+    # For example, you can deploy to Azure, AWS, etc.
