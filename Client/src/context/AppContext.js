@@ -5,6 +5,7 @@ export const AppContext = createContext();
 
 const AppProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);  // New state to track if the user is an admin
   const [cartItems, setCartItems] = useState([]); // Cart items management
   const [showLoginModal, setShowLoginModal] = useState(false); // Modal visibility for login
 
@@ -17,7 +18,13 @@ const AppProvider = ({ children }) => {
   // Function to handle logout
   const logout = () => {
     setIsLoggedIn(false);
+    setIsAdmin(false); // Reset admin status on logout
     setShowLoginModal(true); // Show modal on logout
+  };
+
+  // Function to set admin status
+  const handleAdminLogin = (isAdminLogin) => {
+    setIsAdmin(isAdminLogin); // Set isAdmin based on whether the user logs in as admin
   };
 
   // Function to add product to the cart
@@ -64,8 +71,10 @@ const AppProvider = ({ children }) => {
   return (
     <AppContext.Provider value={{
       isLoggedIn,
+      isAdmin,  // Provide isAdmin state to all components
       login,
       logout,
+      setIsAdmin: handleAdminLogin,  // Provide the function to set admin state
       cartItems,
       addToCart,
       removeFromCart,

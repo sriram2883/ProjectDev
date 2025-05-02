@@ -70,6 +70,7 @@ namespace Server.Controllers
 
             existingProduct.Name = product.Name;
             existingProduct.Price = product.Price;
+            existingProduct.Category = product.Category;
 
             await _context.SaveChangesAsync();
             return NoContent(); // 204 response

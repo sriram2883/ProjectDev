@@ -166,3 +166,4 @@ C:\Users\E-S-R\OneDrive\Desktop\Proj Sales\Server\obj\Debug\net8.0\refint\Server
 C:\Users\E-S-R\OneDrive\Desktop\Proj Sales\Server\obj\Debug\net8.0\Server.pdb
 C:\Users\E-S-R\OneDrive\Desktop\Proj Sales\Server\obj\Debug\net8.0\Server.genruntimeconfig.cache
 C:\Users\E-S-R\OneDrive\Desktop\Proj Sales\Server\obj\Debug\net8.0\ref\Server.dll
+C:\Users\E-S-R\OneDrive\Desktop\Proj Sales\Server\obj\Debug\net8.0\Server.sourcelink.json

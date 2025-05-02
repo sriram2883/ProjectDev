@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, Link } from 'react-router-dom';
 import Navbar from './components/NavBar';
 import Home from './components/Home';
 import Catalog from './components/Catalog';
@@ -9,14 +9,16 @@ import AppProvider, { AppContext } from './context/AppContext';
 import LoginModal from './components/LoginModal';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Billing from './components/Billing';
+import AdminDashboard from './components/AdminDashboard'; // Assuming you have an Admin Dashboard component
 
 const AppContent = () => {
-  const { showLoginModal, setShowLoginModal } = useContext(AppContext);
+  const { showLoginModal, setShowLoginModal, isLoggedIn, isAdmin } = useContext(AppContext);
 
   return (
     <>
       <Navbar />
       {showLoginModal && <LoginModal setShowLoginModal={setShowLoginModal} />}
+      
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/home" element={<Home />} />
@@ -24,6 +26,9 @@ const AppContent = () => {
         <Route path="/orders" element={<Orders />} />
         <Route path="/cart" element={<Cart />} />
         <Route path='/billing' element={<Billing />} />
+
+        {/* Render AdminDashboard only if the user is an admin */}
+        {isAdmin && <Route path="/admin" element={<AdminDashboard />} />}
       </Routes>
     </>
   );

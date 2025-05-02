@@ -53,35 +53,43 @@ namespace Server.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserDto userDto)
         {
+            // Validate user input
             if (string.IsNullOrWhiteSpace(userDto.Username) || string.IsNullOrWhiteSpace(userDto.Password))
+            {
                 return BadRequest("Username and password are required.");
+            }
 
             var user = await _context.Set<User>().SingleOrDefaultAsync(u => u.Username == userDto.Username);
 
             if (user == null)
             {
-                Console.WriteLine("User not found.");
                 return Unauthorized("Invalid credentials.");
             }
 
-            Console.WriteLine($"Input password: {userDto.Password}");
-            Console.WriteLine($"Stored hash: {user.PasswordHash}");
-
             bool isPasswordCorrect = BCrypt.Net.BCrypt.Verify(userDto.Password, user.PasswordHash);
-            Console.WriteLine($"Verify result: {isPasswordCorrect}");
 
             if (!isPasswordCorrect)
+            {
                 return Unauthorized("Invalid credentials.");
+            }
 
+            // Check if the user is logging in as an admin
+            if (userDto.LoginAsAdmin && user.Role != "admin")
+            {
+                return Unauthorized("You do not have permission to log in as an admin.");
+            }
+
+            // Generate JWT token
             var token = _jwtService.GenerateToken(user);
-            return Ok(new { token });
+            return Ok(new { token, role = user.Role });
         }
-
     }
-        // UserDto class for Registration and Login
-        public class UserDto
+
+    // UserDto class for Registration and Login
+    public class UserDto
     {
-        public required string Username { get; set; } // Added 'required' modifier
-        public required string Password { get; set; } // Added 'required' modifier
+        public string Username { get; set; }  // No need for 'required' as it's handled by validation logic
+        public string Password { get; set; }  // No need for 'required' as it's handled by validation logic
+        public bool LoginAsAdmin { get; set; }  // Add LoginAsAdmin to handle admin login requests
     }
 }

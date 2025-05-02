@@ -4,18 +4,15 @@ import axios from 'axios';
 
 const Catalog = () => {
   const { addToCart, isLoggedIn, setShowLoginModal } = useContext(AppContext);
-  const [products, setProducts] = useState([]); // Ensure products is an array
+  const [products, setProducts] = useState([]);
   const [selectedCategory, setSelectedCategory] = useState('');
 
-  // 🧠 Get unique categories from products
-  const categories = [...new Set(products.map(product => product.Category))];
-
-  // 🌐 Fetch products from backend API
+  // Fetch products from backend API
   useEffect(() => {
     const fetchProducts = async () => {
       try {
         const response = await axios.get('http://localhost:5042/api/Product');
-        
+
         // Access products array inside the "$values" property
         if (response.data && response.data.$values && Array.isArray(response.data.$values)) {
           setProducts(response.data.$values);
@@ -38,6 +35,22 @@ const Catalog = () => {
     ? products.filter(product => product.Category === selectedCategory)
     : products;
 
+  // Group products by Category, and then sort by Id within each category
+  const groupedProducts = filteredProducts.reduce((acc, product) => {
+    if (!acc[product.Category]) {
+      acc[product.Category] = [];
+    }
+    acc[product.Category].push(product);
+    return acc;
+  }, {});
+
+  // Sort each category's products by Id
+  Object.keys(groupedProducts).forEach(category => {
+    groupedProducts[category].sort((a, b) => a.Id - b.Id); // Sort by Id
+  });
+
+  const categories = [...new Set(products.map(product => product.Category))];
+
   const handleAddToCart = (product) => {
     addToCart(product);
   };
@@ -56,9 +69,9 @@ const Catalog = () => {
           value={selectedCategory}
         >
           <option value="">All Categories</option>
-          {categories.map((Category) => (
-            <option key={Category} value={Category}>
-              {Category}
+          {categories.map((category) => (
+            <option key={category} value={category}>
+              {category}
             </option>
           ))}
         </select>
@@ -66,20 +79,27 @@ const Catalog = () => {
 
       {/* Product List */}
       <div className="row">
-        {filteredProducts.length > 0 ? (
-          filteredProducts.map((product) => (
-            <div key={product.Id} className="col-md-3 mb-4">
-              <div className="card shadow-sm">
-                <div className="card-body">
-                  <h5 className="card-title">{product.Name}</h5>
-                  <p className="card-text">Price: ${product.Price}</p>
-                  <button
-                    className="btn btn-primary"
-                    onClick={() => handleAddToCart(product)}
-                  >
-                    Add to Cart
-                  </button>
-                </div>
+        {Object.keys(groupedProducts).length > 0 ? (
+          Object.keys(groupedProducts).map(category => (
+            <div key={category} className="col-12 mb-4">
+              <h4>{category}</h4>
+              <div className="row">
+                {groupedProducts[category].map(product => (
+                  <div key={product.Id} className="col-md-3 mb-4">
+                    <div className="card shadow-sm">
+                      <div className="card-body">
+                        <h5 className="card-title">{product.Name}</h5>
+                        <p className="card-text">Price: ${product.Price}</p>
+                        <button
+                          className="btn btn-primary"
+                          onClick={() => handleAddToCart(product)}
+                        >
+                          Add to Cart
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
           ))

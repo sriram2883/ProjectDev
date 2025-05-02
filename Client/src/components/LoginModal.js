@@ -4,32 +4,37 @@ import { AppContext } from '../context/AppContext';
 const LoginModal = ({ setShowLoginModal }) => {
   const [userName, setUserName] = useState('');
   const [password, setPassword] = useState('');
-  const [isRegistering, setIsRegistering] = useState(false);  // New state to toggle between login and register
-  const { login } = useContext(AppContext);
+  const [isRegistering, setIsRegistering] = useState(false);
+  const [loginAsAdmin, setLoginAsAdmin] = useState(false);  // Login as Admin flag
+  const { login, setIsAdmin } = useContext(AppContext);
 
+  // Handle the login process
   const handleLogin = async (e) => {
     e.preventDefault();
     if (userName && password) {
-      // Send login request to backend
       try {
         const response = await fetch('http://localhost:5042/api/auth/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify({ userName, password }),
+          body: JSON.stringify({ userName, password, loginAsAdmin }),  // Pass loginAsAdmin flag
         });
 
         if (!response.ok) {
-          alert('InvalId login credentials.');
+          alert('Invalid login credentials or insufficient permissions.');
           return;
         }
 
         const data = await response.json();
-        localStorage.setItem('token', data.token); // Store JWT token in localStorage
-        login();  // Context method to handle login state
+        localStorage.setItem('token', data.token);  // Store JWT token in localStorage
+
+        // Set admin state in context based on response role
+        setIsAdmin(data.role === 'admin');  // Update context with admin status
+
+        login();  // Call context's login method to set logged in state
         alert('Login successful!');
-        setShowLoginModal(false);
+        setShowLoginModal(false); // Close the modal on successful login
       } catch (error) {
         console.error('Login error:', error);
         alert('An error occurred while logging in.');
@@ -39,10 +44,10 @@ const LoginModal = ({ setShowLoginModal }) => {
     }
   };
 
+  // Handle user registration
   const handleRegister = async (e) => {
     e.preventDefault();
     if (userName && password) {
-      // Send register request to backend
       try {
         const response = await fetch('http://localhost:5042/api/auth/register', {
           method: 'POST',
@@ -69,8 +74,9 @@ const LoginModal = ({ setShowLoginModal }) => {
     }
   };
 
+  // Close modal
   const closeModal = () => {
-    setShowLoginModal(false); // Manual close
+    setShowLoginModal(false); // Manually close the modal
   };
 
   return (
@@ -78,6 +84,7 @@ const LoginModal = ({ setShowLoginModal }) => {
       <div className="login-modal">
         <button className="close-btn" onClick={closeModal}>×</button>
         <h2>{isRegistering ? 'Register' : 'Login'}</h2>
+        
         <form onSubmit={isRegistering ? handleRegister : handleLogin}>
           <div className="mb-3">
             <label>UserName</label>
@@ -99,6 +106,21 @@ const LoginModal = ({ setShowLoginModal }) => {
               placeholder="Enter your password"
             />
           </div>
+
+          {/* Only show "Login as Admin" checkbox if not in registration mode */}
+          {!isRegistering && (
+            <div className="mb-3">
+              <label>
+                <input
+                  type="checkbox"
+                  checked={loginAsAdmin}
+                  onChange={() => setLoginAsAdmin(!loginAsAdmin)}
+                />
+                Login as Admin
+              </label>
+            </div>
+          )}
+
           <button type="submit" className="btn btn-primary w-100">
             {isRegistering ? 'Register' : 'Login'}
           </button>

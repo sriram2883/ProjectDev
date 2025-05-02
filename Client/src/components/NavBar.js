@@ -3,7 +3,7 @@ import { AppContext } from '../context/AppContext';
 import { Link, useNavigate } from 'react-router-dom';
 
 const Navbar = () => {
-  const { logout, cartItems, isLoggedIn,setShowLoginModal } = useContext(AppContext);
+  const { logout, cartItems, isLoggedIn, isAdmin, setShowLoginModal } = useContext(AppContext);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -35,6 +35,14 @@ const Navbar = () => {
                 <i className="bi bi-cart-fill"></i> Cart ({cartItems.length})
               </Link>
             </li>
+            {/* Admin link, only visible if logged in as admin */}
+            {isLoggedIn && isAdmin && (
+              <li className="nav-item ms-3">
+                <Link to="/admin" className="nav-link text-white">
+                  Admin Dashboard
+                </Link>
+              </li>
+            )}
           </ul>
           {isLoggedIn ? (
             <button className="btn btn-outline-light ms-2" onClick={handleLogout}>
