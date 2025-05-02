@@ -59,6 +59,6 @@ jobs:
       - name: Deploy .NET backend to Azure WebApp
         uses: azure/webapps-deploy@v2
         with:
-          app-name: 'your-app-name' # replace with your backend App Service name
+          app-name: 'backendsriram' # replace with your backend App Service name
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           package: './Server/bin/Release/net8.0/publish'
